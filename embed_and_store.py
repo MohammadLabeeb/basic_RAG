@@ -6,12 +6,16 @@ import faiss
 import json
 
 # Specify the directory containing your documents and where to save the embeddings
-DOCUMENTS_DIR = r"C:\Users\I012127\Desktop\RAG\RAG_Docs_test"  # Path to directory containing your PDF/Word files
-INDEX_DIR = r"C:\Users\I012127\Desktop\RAG\RAG_Docs_test_vector_store"  # Directory to save the FAISS index
+# TODO: Replace these paths with your actual paths
+DOCUMENTS_DIR = r""  # Path to directory containing your PDF/Word files
+INDEX_DIR = r""  # Directory to save the FAISS index
 EMBEDDINGS_FILE = "doc_embeddings.json"
 
 # Load the SentenceTransformer model
-embedding_model = SentenceTransformer(r"C:\Users\I012127\Desktop\RAG\models\all-minilm-l6-v2")
+# if model is loaded from a local directory, specify the path
+# embedding_model = SentenceTransformer(r"")
+
+embedding_model = SentenceTransformer('sentence-transformers/all-minilm-l6-v2')
 
 def read_document(file_path):
     """Read text from a PDF or other supported document."""

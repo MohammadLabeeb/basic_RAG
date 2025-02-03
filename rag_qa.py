@@ -8,21 +8,29 @@ import numpy as np
 import torch
 
 # Paths to required resources
-INDEX_DIR = r"C:\Users\I012127\Desktop\RAG\RAG_Docs_test_vector_store"
-EMBEDDINGS_FILE = "doc_embeddings.json"
-MODEL_PATH = r"C:\Users\I012127\Desktop\RAG\models\llama-3.2-1b"  # Path to the downloaded Llama model
+# TODO: Replace these paths with your actual paths
+INDEX_DIR = r""  # Directory where the FAISS index is stored
+EMBEDDINGS_FILE = "doc_embeddings.json"  # Path to the JSON file containing document embeddings
 
 # Load the Llama model and tokenizer
 print("Loading model and tokenizer...")
-tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, use_fast=False)
-model = AutoModelForCausalLM.from_pretrained(MODEL_PATH)
+# if model is loaded from a local directory, specify the path
+# MODEL_PATH = r""  # Path to the downloaded Llama model
+# tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+# model = AutoModelForCausalLM.from_pretrained(MODEL_PATH)
+
+tokenizer = AutoTokenizer.from_pretrained('meta-llama/Llama-3.2-1B')
+model = AutoModelForCausalLM.from_pretrained('meta-llama/Llama-3.2-1B')
 
 # Set padding token if not already set
 if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
 
 # Load embedding model
-embedding_model = SentenceTransformer(r"C:\Users\I012127\Desktop\RAG\models\all-minilm-l6-v2")
+# if model is loaded from a local directory, specify the path
+# embedding_model = SentenceTransformer(r"")
+
+embedding_model = SentenceTransformer('sentence-transformers/all-minilm-l6-v2')
 
 def read_document(file_path):
     """Read text from a PDF or other supported document."""
@@ -79,8 +87,8 @@ def answer_question(query, retrieved_chunks):
     output = model.generate(
         input_ids["input_ids"],
         attention_mask=input_ids["attention_mask"],
-        max_new_tokens=200, #150         # Increased for more complete answers
-        min_length=10, # input_ids["input_ids"].shape[1] + 10,  # Reduced minimum to allow shorter answers
+        max_new_tokens=200,
+        min_length=10,
         num_return_sequences=1,
         pad_token_id=tokenizer.pad_token_id,
         eos_token_id=tokenizer.eos_token_id,
